@@ -58,7 +58,7 @@ echo "$PRINTER_DATA/timelapse  $FTP_BASE/timelapse  none bind 0 0" >> /etc/fstab
 echo "$PRINTER_DATA/logs       $FTP_BASE/logs       none bind 0 0" >> /etc/fstab
 
 mount -a
-
+systemctl daemon-reload
 # -------------------------------
 # 6. Erstelle symbolische Links nach /srv/Enderon
 # -------------------------------
