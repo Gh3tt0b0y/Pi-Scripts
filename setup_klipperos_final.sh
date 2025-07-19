@@ -44,6 +44,7 @@ FTP_LINK="/srv/Enderon"
 
 echo -e "${YELLOW}➤ Erstelle Verzeichnisse für Bind-Mounts und Druckdaten...${NC}"
 mkdir -p $PRINTER_DATA/{config,gcodes,timelapse,logs}
+chown -R pi:pi /home/pi/printer_data
 mkdir -p $FTP_BASE/{config,modeldata,timelapse,logs}
 mkdir -p $FTP_LINK
 
