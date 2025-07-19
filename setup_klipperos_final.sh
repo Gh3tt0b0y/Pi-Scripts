@@ -62,11 +62,18 @@ mount -a
 # -------------------------------
 # 6. Erstelle symbolische Links nach /srv/Enderon
 # -------------------------------
-echo -e "${YELLOW}➤ Verlinke FTP-Zugriff über /srv/Enderon...${NC}"
-ln -sf $FTP_BASE/config     $FTP_LINK/config
-ln -sf $FTP_BASE/modeldata  $FTP_LINK/modeldata
-ln -sf $FTP_BASE/timelapse  $FTP_LINK/timelapse
-ln -sf $FTP_BASE/logs       $FTP_LINK/logs
+echo -e "${YELLOW}➤ Binde FTP-Verzeichnisse über /srv/Enderon ein (bind mounts)...${NC}"
+
+mount --bind $PRINTER_DATA/config     $FTP_LINK/config
+mount --bind $PRINTER_DATA/gcodes     $FTP_LINK/modeldata
+mount --bind $PRINTER_DATA/timelapse  $FTP_LINK/timelapse
+mount --bind $PRINTER_DATA/logs       $FTP_LINK/logs
+
+# Dauerhaft in /etc/fstab eintragen, falls noch nicht vorhanden:
+grep -qxF "$PRINTER_DATA/config $FTP_LINK/config none bind 0 0" /etc/fstab || echo "$PRINTER_DATA/config $FTP_LINK/config none bind 0 0" >> /etc/fstab
+grep -qxF "$PRINTER_DATA/gcodes $FTP_LINK/modeldata none bind 0 0" /etc/fstab || echo "$PRINTER_DATA/gcodes $FTP_LINK/modeldata none bind 0 0" >> /etc/fstab
+grep -qxF "$PRINTER_DATA/timelapse $FTP_LINK/timelapse none bind 0 0" /etc/fstab || echo "$PRINTER_DATA/timelapse $FTP_LINK/timelapse none bind 0 0" >> /etc/fstab
+grep -qxF "$PRINTER_DATA/logs $FTP_LINK/logs none bind 0 0" /etc/fstab || echo "$PRINTER_DATA/logs $FTP_LINK/logs none bind 0 0" >> /etc/fstab
 
 # -------------------------------
 # 7. Konfiguriere FTP (vsftpd)
